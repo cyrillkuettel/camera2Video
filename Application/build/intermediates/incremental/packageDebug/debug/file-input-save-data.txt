@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Tue Nov 30 10:45:08 CET 2021
+0.baseType=DIRECTORY
+0.base=/home/cyrill/diverse_Android_Camera_samples/android-Camera2Video/Application/build/intermediates/transforms/dexMerger/debug/0
+0.path=classes.dex
+0.set=DEX
+count=1

@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -140,8 +141,18 @@ public class Camera2VideoFragment extends Fragment
             return true;
         }
 
+        private boolean ONLY_ONE_TIME = true;
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+            // Get the bitmap
+            final Bitmap frame = Bitmap.createBitmap(mTextureView.getWidth(), mTextureView.getHeight(), Bitmap.Config.ARGB_8888);
+            final Bitmap actualFrame = mTextureView.getBitmap(frame);
+            Log.v(TAG, "actualFrame capture seems to have worked");
+            // Do whatever you like with the frame
+            if (ONLY_ONE_TIME) {
+                ONLY_ONE_TIME = false;
+                FrameProcessor.saveBitmapToFile(actualFrame);
+            }
         }
 
     };
@@ -587,7 +598,7 @@ public class Camera2VideoFragment extends Fragment
         }
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
-        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setVideoFrameRate(10);
         mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
